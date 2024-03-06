@@ -2,42 +2,68 @@ require('dotenv').config()
 const e = require('express');
 const express = require('express')
 const morgan = require('morgan');
-
+const db = require('./db');
 const app = express();
 app.use(express.json());
 
 //get all restaurants
-app.get('/api/v1/restaurants', (req, res) => {
-  console.log("route handeler ran")
-  res.status(200).json({
-    status: 'success',
-    data : {
-      restaurants : ['mcdnalads', 'kfc', 'burger king']
-    }
-  })
+app.get('/api/v1/restaurants', async (req, res) => {
+
+  try {
+    const results = await  db.query('SELECT * FROM restaurants');
+
+    console.log(results)
+    res.status(200).json({
+      status: 'success',
+      results: results.rows.length,
+      data : {
+        restaurants : results.rows
+      }
+    })
+  } catch (err) {
+    console.log(err); 
+  }
+
 });
 
 //get a restaurant
-app.get('/api/v1/restaurants/:id', (req, res) => {
-  console.log(req.params);
-  res.status(200).json({
-    status: 'success',
-    data : {
-      restaurant : 'mcdnalads'
-    }
-  })
+app.get('/api/v1/restaurants/:id', async (req, res) => {
+  console.log(req.params.id);
+
+  try {
+    const results = await db.query('SELECT * FROM restaurants WHERE id = $1', [req.params.id]);
+
+    // select * from restaurants where id = req.params.id 
+    res.status(200).json({
+      status: 'success',
+      data : {
+        restaurant : results.rows[0],
+      },
+    })
+    console.log(results.rows[0])
+  } catch (err) {
+    console.log(err);
+  }
+
 });
 
 //create a restaurant
-app.post('/api/v1/restaurants', (req, res) => {
+app.post('/api/v1/restaurants', async (req, res) => {
   console.log(req.body);
 
-  res.status(201).json({
-    status: 'success',
-    data : {
-      restaurant : 'mcdnalads'
-    }
-  })
+  try {
+     const results = await db.query('INSERT INTO restaurants (name, location, price_range) values ($1, $2, $3) returning *', [req.body.name, req.body.location, req.body.price_range]);
+     res.status(201).json({
+      status: 'success',
+      data : {
+        restaurant : results.rows[0]
+      }
+    })
+    } catch (err) {
+    console.log(err);
+  }
+
+
 });
 
 //update a restaurant
