@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./routes/Home";
 import UpdatePage from "./routes/UpdatePage";
 import RestaurantDetailPage from "./routes/RestaurantDetailPage";
@@ -9,7 +9,7 @@ const App = () => {
     <RestaurantsContextProvider>
       <div className="container">
         <Router>
-          <Switch>
+          <Routes>
             <Route exact path="/" component={Home} />
             <Route
               exact
@@ -21,7 +21,7 @@ const App = () => {
               path="/restaurants/:id"
               component={RestaurantDetailPage}
             />
-          </Switch>
+          </Routes>
         </Router>
       </div>
     </RestaurantsContextProvider>
