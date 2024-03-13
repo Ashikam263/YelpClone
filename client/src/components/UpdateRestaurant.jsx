@@ -3,10 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 import RestaurantFinder from "../apis/RestaurantFinder";
 
-const UpdateRestaurant = (props) => {
+const UpdateRestaurant = () => {
   const { id } = useParams();
   let navigate = useNavigate();
-  const { restaurants } = useContext(RestaurantsContext);
+  // eslint-disable-next-line no-empty-pattern
+  const { } = useContext(RestaurantsContext); // Removed 'restaurants' from the destructuring
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [priceRange, setPriceRange] = useState("");
@@ -21,11 +22,11 @@ const UpdateRestaurant = (props) => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedRestaurant = await RestaurantFinder.put(`/${id}`, {
+    await RestaurantFinder.put(`/${id}`, {
       name,
       location,
       price_range: priceRange,
