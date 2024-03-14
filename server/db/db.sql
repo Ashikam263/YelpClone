@@ -8,12 +8,12 @@ CREATE TABLE reviews (
         and rating <= 5
     )
 );
-select *
-from restaurants
-    left join(
-        select restaurant_id,
-            count(*),
-            TRUNC(AVG(rating, 1)) as average_rating
-        from reviews
-        group by restaurant_id
-    ) reviews on restaurants.id = reviews.restaurant_id;
+SELECT *
+FROM restaurants
+LEFT JOIN (
+    SELECT restaurant_id,
+           COUNT(*),
+           TRUNC(AVG(rating), 1) AS average_rating
+    FROM reviews
+    GROUP BY restaurant_id
+) reviews ON restaurants.id = reviews.restaurant_id;
