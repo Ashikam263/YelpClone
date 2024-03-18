@@ -44,20 +44,19 @@ const AddRestaurant = () => {
               placeholder="location"
             />
           </div>
-          <div className="col">
-            <select
-              value={priceRange}
-              onChange={(e) => setPriceRange(e.target.value)}
-              className="custom-select my-1 mr-sm-2"
-            >
-              <option disabled>Price Range</option>
-              <option value="1">$</option>
-              <option value="2">$$</option>
-              <option value="3">$$$</option>
-              <option value="4">$$$$</option>
-              <option value="5">$$$$$</option>
-            </select>
+          <div className="dropdown">
+            <button className="btn btn-secondary dropdown-toggle" type="button" id="priceRangeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              Price Range
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="priceRangeDropdown">
+              <li><button className="dropdown-item" type="button" onClick={() => setPriceRange("1")}>$</button></li>
+              <li><button className="dropdown-item" type="button" onClick={() => setPriceRange("2")}>$$</button></li>
+              <li><button className="dropdown-item" type="button" onClick={() => setPriceRange("3")}>$$$</button></li>
+              <li><button className="dropdown-item" type="button" onClick={() => setPriceRange("4")}>$$$$</button></li>
+              <li><button className="dropdown-item" type="button" onClick={() => setPriceRange("5")}>$$$$$</button></li>
+            </ul>
           </div>
+
           <button
             onClick={handleSubmit}
             type="submit"
